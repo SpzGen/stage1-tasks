@@ -8,6 +8,7 @@ pianoКeys.forEach (key => {
 
 function playAudio (e) {
     let key = e.target;
+    console.log(key);
     let audio = document.getElementById(key.dataset.note);
     key.classList.add('piano-key-active');
     audio.currentTime = 0;
@@ -44,3 +45,18 @@ document.querySelector('.fullscreen').addEventListener('click', function() {
         }
     }
 });
+
+
+
+window.addEventListener('keydown', function (e) {
+    let au = document.querySelector(`audio[akey="${e.keyCode}"]`);
+    let audio=document.getElementById(au.id);
+    let cl = document.querySelector(`.piano-key[data-note="${au.id}"]`);
+    cl.classList.add('piano-key-active');
+    audio.currentTime = 0;
+    audio.play();
+    cl.addEventListener('transitionend', () => {
+        cl.classList.remove('piano-key-active');
+    });
+});
+
