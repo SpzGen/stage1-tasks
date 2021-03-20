@@ -1,20 +1,34 @@
 const audio = document.querySelectorAll('audio');
+const piano = document.querySelectorAll('.piano');
 const pianoКeys = document.querySelectorAll('.piano-key');
 const btn = document.querySelectorAll('.btn');
 
-pianoКeys.forEach (key => {
-    key.addEventListener('click', playAudio);
+piano.forEach (key => {
+    key.addEventListener('mousedown', mousedown);
+    key.addEventListener("mouseup", mouseup);
 });
 
+function mousedown (e) {
+    playAudio(e);
+    pianoКeys.forEach ((e) => {
+        e.addEventListener("mouseover", playAudio);
+    });
+};
+
 function playAudio (e) {
+    e.target.classList.add('piano-key-active');
     let key = e.target;
-    console.log(key);
     let audio = document.getElementById(key.dataset.note);
-    key.classList.add('piano-key-active');
     audio.currentTime = 0;
     audio.play();
     key.addEventListener('transitionend', () => {
         key.classList.remove('piano-key-active');
+    });
+};
+
+function mouseup (e) {
+    pianoКeys.forEach ((e) => {
+        e.removeEventListener("mouseover", playAudio);
     });
 };
 
@@ -42,21 +56,20 @@ document.querySelector('.fullscreen').addEventListener('click', function() {
     } else {
         if (document.exitFullscreen) {
             document.exitFullscreen();
-        }
-    }
+        };
+    };
 });
-
-
 
 window.addEventListener('keydown', function (e) {
     let au = document.querySelector(`audio[akey="${e.keyCode}"]`);
-    let audio=document.getElementById(au.id);
-    let cl = document.querySelector(`.piano-key[data-note="${au.id}"]`);
-    cl.classList.add('piano-key-active');
-    audio.currentTime = 0;
-    audio.play();
-    cl.addEventListener('transitionend', () => {
-        cl.classList.remove('piano-key-active');
-    });
+    if (au) {
+        let audio=document.getElementById(au.id);
+        let cl = document.querySelector(`.piano-key[data-note="${au.id}"]`);
+        cl.classList.add('piano-key-active');
+        audio.currentTime = 0;
+        audio.play();
+        cl.addEventListener('transitionend', () => {
+            cl.classList.remove('piano-key-active');
+        });
+    };
 });
-
