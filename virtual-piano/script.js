@@ -2,10 +2,10 @@ const audio = document.querySelectorAll('audio');
 const piano = document.querySelectorAll('.piano');
 const pianoКeys = document.querySelectorAll('.piano-key');
 const btn = document.querySelectorAll('.btn');
+document.addEventListener("mouseup", mouseup);
 
 piano.forEach (key => {
     key.addEventListener('mousedown', mousedown);
-    key.addEventListener("mouseup", mouseup);
 });
 
 function mousedown (e) {
